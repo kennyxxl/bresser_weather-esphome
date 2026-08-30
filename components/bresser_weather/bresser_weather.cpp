@@ -11,6 +11,7 @@ namespace esphome
         void BresserWeatherComponent::setup()
         {
             ESP_LOGI(TAG, "Setting up Bresser Weather Sensor Receiver");
+			SPI.begin(18, 19, 23, 5);  // SCK, MISO, MOSI, SS — tu wiring real de ESP32
             this->ws_.begin();
             ESP_LOGI(TAG, "Receiver initialized successfully");
         }
