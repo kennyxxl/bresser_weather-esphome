@@ -1,5 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
+from esphome.core import CORE
 from esphome.components import sensor, binary_sensor, text_sensor
 from esphome.const import (
     CONF_ID,
@@ -99,6 +100,13 @@ CONFIG_SCHEMA = cv.Schema(
 
 
 async def to_code(config):
+    if CORE.is_esp8266:
+        try:
+            from esphome.components.esp8266.const import require_waveform
+            require_waveform()
+        except ImportError:
+            pass  # ESPHome antiguo, no hace falta
+            
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
 
